@@ -12,16 +12,22 @@ namespace Tutorial
             List<People> fs = family(names);
             foreach (People f in fs)
                 _handler.Evt += f.Do;
-
-            _handler.Do(new EvtArgs(msg));
-            Console.WriteLine("Finish!");
+            _do(msg);
+            foreach (People f in fs)
+                _handler.Evt -= f.Do;
         }
 
         public void OnSendMessage(Func<Dictionary<int, string>, List<People>> student, Dictionary<int, string> stDic, string msg){
             List<People> sts = student(stDic);
             foreach (People st in sts)
                 _handler.Evt += st.Do;
+            _do(msg);
+            foreach (People st in sts)
+                _handler.Evt -= st.Do;
+        }
 
+        private void _do(string msg)
+        {
             _handler.Do(new EvtArgs(msg));
             Console.WriteLine("Finish!");
         }
